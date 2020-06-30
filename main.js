@@ -14,16 +14,11 @@ $(document).ready(function() {
       CITIES,
       function(index, value) {    
         $("<li>")
-          .append(
-            $("<input>")
-              .attr({
-                "type": "checkbox", "name": "city", "id": "check"+index,
-                "value": value.name, "checked": true
-              })
-              .data(value)
-          )
-          .append($("<label>").attr("for", "check"+index).text(value.name))
-          .append($("<button>").text("Zoom").addClass("zoom-to").data(value))
+          .append($("<label>").text(value.name))
+          .data(value)
+          .append($("<button>").addClass("hide").click(function(){$(this).toggleClass("active");}))
+          .append($("<button>").addClass("ghost").click(function(){$(this).toggleClass("active");}))
+          .append($("<button>").addClass("zoom-to"))
           .appendTo($("div#controls ul"));
       }
     );
@@ -71,36 +66,36 @@ $(document).ready(function() {
 
     $("div#controls ul li button.zoom-to").click(
         function() {
-            var ll = $(this).data().latLng;
+            var ll = $(this).parent().data().latLng;
             _map.flyToBounds(L.latLng(ll).toBounds(100000), getPadding());
         }
     );
-    $("div#controls ul li input[type=checkbox]").change(function(){loadMarkers()});
-    slider.noUiSlider.on("change", function(){loadMarkers();});
+    $("div#controls ul li button.ghost").click(function(){loadMarkers()});
+    $("div#controls ul li button.hide").click(function(){loadMarkers()});
+    
+    slider.noUiSlider.on("change", function(){});
 
     /************************** Functions ****************************/
     
     function loadMarkers()
     {
-      _layerGroup.clearLayers();
-      $.each(
-        $.map(
-          $.grep(
-              $("input[type=checkbox]"), 
-              function(value) {return $(value).prop("checked");}
-          ),
-          function(value) {return $(value).data();}
-        ),  
-        function(index, value) {
-          var marker = L.marker(value.latLng)
-            .addTo(_layerGroup)
-            .bindPopup(value.name,{closeButton: false})
-            .bindTooltip(value.name)
-            .on("click", function(){$(".leaflet-tooltip").remove();});
-          marker.properties = value;  
-          marker.setOpacity(slider.noUiSlider.get(0)/100);
-        }
-      );
+        _layerGroup.clearLayers();
+        $.each(
+            $.grep(
+                $("div#controls ul li"), 
+                function(value) {return !$("button.hide", value).hasClass("active");}
+            ),
+            function(index, li) {
+                var data = $(li).data();
+                var marker = L.marker(data.latLng)
+                    .addTo(_layerGroup)
+                    .bindPopup(data.name,{closeButton: false})
+                    .bindTooltip(data.name)
+                    .on("click", function(){$(".leaflet-tooltip").remove();});
+                marker.properties = data;  
+                marker.setOpacity($("button.ghost", li).hasClass("active") ? 0.5 : 1);
+            }
+        );
     }
     
     function calcOffsetCenter(center, targetZoom, paddingOptions)
