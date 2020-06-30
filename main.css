@@ -1,0 +1,67 @@
+html, body {
+  height: 100%;
+  margin: 0px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leaflet-popup-content {
+  text-align: center;
+}
+
+section {
+  width: 100%;
+  flex: 1;
+  max-width: 800px;
+  max-height: 600px;
+  padding-bottom: 20px;
+  display: flex;
+  position: relative;
+}
+
+section div#map {
+  flex: 1;
+}
+
+section div#controls {
+  position: absolute;
+  z-index: 2000;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 10px;
+  top: 10px;
+  left: 50px;
+  border: solid;
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+}
+
+section div#controls ul {
+  list-style-type: none;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+  -moz-margin-start: 0px;
+  -moz-margin-end: 0px;
+  -moz-padding-start: 0px;
+  -moz-padding-end: 0px;
+}
+
+section div#controls ul li input[type=checkbox] {
+  cursor: pointer;
+}
+
+section div#controls ul li label {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+section button {
+  cursor: pointer;
+}

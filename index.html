@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+   <!--
+     | Version 10.1.1
+     | Copyright 2012 Esri
+     |
+     | Licensed under the Apache License, Version 2.0 (the "License");
+     | you may not use this file except in compliance with the License.
+     | You may obtain a copy of the License at
+     |
+     |    http://www.apache.org/licenses/LICENSE-2.0
+     |
+     | Unless required by applicable law or agreed to in writing, software
+     | distributed under the License is distributed on an "AS IS" BASIS,
+     | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     | See the License for the specific language governing permissions and
+     | limitations under the License.
+    -->	
+
+	<meta charset="utf-8">
+
+	<title>Mapping Functional Prototype</title>
+
+	<meta name="author" content="Lee Bock">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!--Facebook Open Graph-->
+	<meta property="og:title" content="" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="" />
+	<meta property="og:image" content="" />
+	<meta property="og:site_name" content="" />
+	<meta property="og:description" content=""/>
+	<meta property="fb:app_id" content="" />
+	<!--End Facebook-->
+
+	<!--Twitter Card Data-->
+	<meta name="twitter:card" content="">
+	<meta name="twitter:site" content="">
+	<!--Twitter Card Data-->	
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<link type="image/ico" rel="shortcut icon" href="resources/favicon.ico">
+	<link type="image/ico" rel="icon"  href="resources/favicon.ico">
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
+	<link rel="stylesheet" href="main.css">	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.4.1/esri-leaflet.js"></script>
+
+	<script src="main.js"></script>
+
+</head>
+
+<body>
+
+	<h1>Playpen Map Activity Center</h1>
+	<section>
+		<div id="map"></div>
+		<div id="controls">
+			<h3>Toggle Cities</h3>
+			<ul></ul>
+			<hr></hr>
+			<h3>Control Opacity</h3>
+			<div>
+			<label>Marker Opacity: </label>
+			<input type="number" id="opacity" min="1" max="100" value="100">
+			</div>
+			<hr></hr>
+			<h3>Whimsical Map Actions</h3>
+			<button>Zoom to Seattle</button>
+		</div>
+	</section>
+   
+</body>
+
+</html>
