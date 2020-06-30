@@ -16,6 +16,29 @@ $(document).ready(function() {
     var _map = L.map("map", {center: [40.78, -95], zoom: 2})
         .addLayer(L.esri.basemapLayer("Streets"))
         .fitBounds(FULL_EXTENT, {paddingTopLeft: [275,0]});
+        
+    _map.zoomIn = function(){
+        this.setView(
+            calcOffsetCenter(
+                this.getCenter(), 
+                this.getZoom()+1, 
+                {paddingTopLeft: [275,0], paddingBottomRight: [0,0]}
+            ),
+            this.getZoom()+1
+        );
+    };
+
+    _map.zoomOut = function(){
+        this.setView(
+            calcOffsetCenter(
+                this.getCenter(), 
+                this.getZoom()-1, 
+                {paddingTopLeft: [275,0], paddingBottomRight: [0,0]}
+            ),
+            this.getZoom()-1
+        );
+    };
+    
     var _layerGroup = L.layerGroup().addTo(_map);
     
     $.each(
@@ -46,6 +69,11 @@ $(document).ready(function() {
     loadMarkers();
     
     $("input[id='opacity']").change(function(){loadMarkers();});
+    $("button#seattle").click(
+        function() {
+            _map.flyToBounds(L.latLng([47.61, -122.34]).toBounds(100000), {paddingTopLeft: [275,0]});
+        }
+    );
 
     function loadMarkers()
     {
@@ -69,5 +97,22 @@ $(document).ready(function() {
         }
       );
     }
+    
+    function calcOffsetCenter(center, targetZoom, paddingOptions)
+    {
+        var targetPoint = _map.project(center, targetZoom);
+        if (targetZoom < _map.getZoom()) {
+            targetPoint = targetPoint.subtract([
+                (paddingOptions.paddingTopLeft[0] - paddingOptions.paddingBottomRight[0])/4,
+                (paddingOptions.paddingTopLeft[1] - paddingOptions.paddingBottomRight[1])/4
+            ]);
+        } else {                
+            targetPoint = targetPoint.add([
+                (paddingOptions.paddingTopLeft[0] - paddingOptions.paddingBottomRight[0])/2,
+                (paddingOptions.paddingTopLeft[1] - paddingOptions.paddingBottomRight[1])/2
+            ]);
+        }
+        return _map.unproject(targetPoint, targetZoom);
+    }    
     
 });
