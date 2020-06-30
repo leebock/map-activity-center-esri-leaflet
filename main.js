@@ -19,22 +19,14 @@ $(document).ready(function() {
         
     _map.zoomIn = function(){
         this.setView(
-            calcOffsetCenter(
-                this.getCenter(), 
-                this.getZoom()+1, 
-                getPadding()
-            ),
+            calcOffsetCenter(this.getCenter(), this.getZoom()+1, getPadding()),
             this.getZoom()+1
         );
     };
 
     _map.zoomOut = function(){
         this.setView(
-            calcOffsetCenter(
-                this.getCenter(), 
-                this.getZoom()-1, 
-                getPadding()
-            ),
+            calcOffsetCenter(this.getCenter(), this.getZoom()-1, getPadding()),
             this.getZoom()-1
         );
     };
@@ -48,20 +40,13 @@ $(document).ready(function() {
           .append(
             $("<input>")
               .attr({
-                "type": "checkbox", 
-                "name": "city", "id": 
-                "check"+index, 
-                "value": value.name, 
-                "checked": true
+                "type": "checkbox", "name": "city", "id": "check"+index,
+                "value": value.name, "checked": true
               })
               .change(function(){loadMarkers();})
               .data(value)
           )
-          .append(
-            $("<label>")
-              .attr("for", "check"+index)
-              .text(value.name)
-          )
+          .append($("<label>").attr("for", "check"+index).text(value.name))
           .appendTo($("div#controls ul"));
       }
     );
