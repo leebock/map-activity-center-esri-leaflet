@@ -16,8 +16,8 @@ body {
 section {
   width: 100%;
   flex: 1;
-  max-width: 800px;
-  max-height: 600px;
+  max-width: 900px;
+  max-height: 500px;
   padding-bottom: 20px;
   display: flex;
   position: relative;
@@ -33,7 +33,7 @@ section div#controls {
   background: rgba(255, 255, 255, 0.75);
   padding: 30px;
   top: 10px;
-  left: 50px;
+  left: 10px;
   border: solid;
   border-width: 1px;
   display: flex;
@@ -53,6 +53,11 @@ section div#controls ul {
   -moz-padding-end: 0px;
 }
 
+section div#controls ul li {
+  display: flex;
+  padding: 10px;
+}
+
 section div#controls ul li input[type=checkbox] {
   cursor: pointer;
 }
@@ -60,6 +65,12 @@ section div#controls ul li input[type=checkbox] {
 section div#controls ul li label {
   cursor: pointer;
   margin-left: 5px;
+  flex: 1;
+}
+
+section div#controls ul li button {
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 section button {

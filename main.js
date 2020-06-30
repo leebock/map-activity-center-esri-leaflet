@@ -12,11 +12,14 @@ $(document).ready(function() {
     const FULL_EXTENT = L.latLngBounds(
         $.map(CITIES, function(value){return L.latLng(value.latLng);})
     );
-    
-    var _map = L.map("map", {center: [40.78, -95], zoom: 2})
-        .addLayer(L.esri.basemapLayer("Streets"))
-        .fitBounds(FULL_EXTENT, getPadding());
-        
+
+    var _map = L.map(
+        "map", 
+        {center: [40, -95], zoom: 2, zoomControl: false}
+    )
+    .addLayer(L.esri.basemapLayer("Streets"))
+    .addControl(L.control.zoom({position: "topright"}));
+
     _map.zoomIn = function(){
         this.setView(
             calcOffsetCenter(this.getCenter(), this.getZoom()+1, getPadding()),
@@ -47,6 +50,7 @@ $(document).ready(function() {
               .data(value)
           )
           .append($("<label>").attr("for", "check"+index).text(value.name))
+          .append($("<button>").text("Zoom").data(value).click(onButtonClick))
           .appendTo($("div#controls ul"));
       }
     );
@@ -58,14 +62,8 @@ $(document).ready(function() {
     )
     .on("change", function(){loadMarkers();});
     loadMarkers();
+    _map.fitBounds(FULL_EXTENT, getPadding());
     
-    $("input[id='opacity']").change(function(){loadMarkers();});
-    $("button#seattle").click(
-        function() {
-            _map.flyToBounds(L.latLng([47.61, -122.34]).toBounds(100000), getPadding());
-        }
-    );
-
     function loadMarkers()
     {
       _layerGroup.clearLayers();
@@ -87,6 +85,11 @@ $(document).ready(function() {
           marker.setOpacity(slider.noUiSlider.get(0)/100);
         }
       );
+    }
+
+    function onButtonClick() {
+        var ll = $(this).data().latLng;
+        _map.flyToBounds(L.latLng(ll).toBounds(100000), getPadding());
     }
     
     function calcOffsetCenter(center, targetZoom, paddingOptions)
@@ -110,7 +113,7 @@ $(document).ready(function() {
     {
         return {
             paddingTopLeft: [
-                $("div#controls").outerWidth() + $("div#controls").position().left,
+                $("div#controls").outerWidth() + parseInt($("div#controls").position().left),
                 0
             ], 
             paddingBottomRight: [0,0]
