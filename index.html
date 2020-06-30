@@ -52,11 +52,13 @@
 
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.3/nouislider.min.css">		
 	<link rel="stylesheet" href="main.css">	
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.4.1/esri-leaflet.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.3/nouislider.min.js"></script>	
 
 	<script src="main.js"></script>
 
@@ -71,10 +73,8 @@
 			<h3>Toggle Cities</h3>
 			<ul></ul>
 			<hr></hr>
-			<h3>Control Opacity</h3>
-			<div>
-			<label>Marker Opacity: </label>
-			<input type="number" id="opacity" min="1" max="100" value="100">
+			<h3>Marker Opacity</h3>
+			<div id="slider">
 			</div>
 			<hr></hr>
 			<h3>Whimsical Map Actions</h3>

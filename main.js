@@ -12,7 +12,7 @@ $(document).ready(function() {
     const FULL_EXTENT = L.latLngBounds(
         $.map(CITIES, function(value){return L.latLng(value.latLng);})
     );
-
+    
     var _map = L.map("map", {center: [40.78, -95], zoom: 2})
         .addLayer(L.esri.basemapLayer("Streets"))
         .fitBounds(FULL_EXTENT, getPadding());
@@ -51,6 +51,12 @@ $(document).ready(function() {
       }
     );
     
+
+    noUiSlider.create(
+        $("div#slider").get(0), 
+        {start: [100], range: {'min': 1,'max': 100}}
+    )
+    .on("change", function(){loadMarkers();});
     loadMarkers();
     
     $("input[id='opacity']").change(function(){loadMarkers();});
@@ -78,7 +84,7 @@ $(document).ready(function() {
             .bindTooltip(value.name)
             .on("click", function(){$(".leaflet-tooltip").remove();});
           marker.properties = value;  
-          marker.setOpacity($("input[id='opacity']").val()/100);
+          marker.setOpacity(slider.noUiSlider.get(0)/100);
         }
       );
     }
