@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
     const CITIES = [
@@ -9,16 +8,38 @@ $(document).ready(function() {
       {name: "Miami", latLng: [25.79, -80.21]}
     ];
     
-    const FULL_EXTENT = L.latLngBounds(
-        $.map(CITIES, function(value){return L.latLng(value.latLng);})
+    // build out UI (this part should be map library independent)
+    
+    $.each(
+      CITIES,
+      function(index, value) {    
+        $("<li>")
+          .append(
+            $("<input>")
+              .attr({
+                "type": "checkbox", "name": "city", "id": "check"+index,
+                "value": value.name, "checked": true
+              })
+              .data(value)
+          )
+          .append($("<label>").attr("for", "check"+index).text(value.name))
+          .append($("<button>").text("Zoom").addClass("zoom-to").data(value))
+          .appendTo($("div#controls ul"));
+      }
     );
+    
+    noUiSlider.create($("div#slider").get(0), {start: [100], range: {'min': 1,'max': 100}});
 
-    var _map = L.map(
-        "map", 
-        {center: [40, -95], zoom: 2, zoomControl: false}
-    )
-    .addLayer(L.esri.basemapLayer("Streets"))
-    .addControl(L.control.zoom({position: "topright"}));
+    /********** All map specific stuff below this line *****************/
+
+    // create map
+
+    var _map = L.map("map", {center: [40, -95], zoom: 2, zoomControl: false})
+        .addLayer(L.esri.basemapLayer("Streets"))
+        .addControl(L.control.zoom({position: "topright"}));
+
+    // override the methods called when zoom control buttons are clicked.  doing this
+    // in order to account for padding due to absolutely positioned div#controls
 
     _map.zoomIn = function(){
         this.setView(
@@ -33,36 +54,31 @@ $(document).ready(function() {
             this.getZoom()-1
         );
     };
+
+    // load markers
     
     var _layerGroup = L.layerGroup().addTo(_map);
-    
-    $.each(
-      CITIES,
-      function(index, value) {    
-        $("<li>")
-          .append(
-            $("<input>")
-              .attr({
-                "type": "checkbox", "name": "city", "id": "check"+index,
-                "value": value.name, "checked": true
-              })
-              .change(function(){loadMarkers();})
-              .data(value)
-          )
-          .append($("<label>").attr("for", "check"+index).text(value.name))
-          .append($("<button>").text("Zoom").data(value).click(onButtonClick))
-          .appendTo($("div#controls ul"));
-      }
-    );
-    
-
-    noUiSlider.create(
-        $("div#slider").get(0), 
-        {start: [100], range: {'min': 1,'max': 100}}
-    )
-    .on("change", function(){loadMarkers();});
     loadMarkers();
+
+    // zoom to initial extent
+
+    const FULL_EXTENT = L.latLngBounds(
+        $.map(CITIES, function(value){return L.latLng(value.latLng);})
+    );
     _map.fitBounds(FULL_EXTENT, getPadding());
+    
+    // assign UI event handlers
+
+    $("div#controls ul li button.zoom-to").click(
+        function() {
+            var ll = $(this).data().latLng;
+            _map.flyToBounds(L.latLng(ll).toBounds(100000), getPadding());
+        }
+    );
+    $("div#controls ul li input[type=checkbox]").change(function(){loadMarkers()});
+    slider.noUiSlider.on("change", function(){loadMarkers();});
+
+    /************************** Functions ****************************/
     
     function loadMarkers()
     {
@@ -86,11 +102,6 @@ $(document).ready(function() {
         }
       );
     }
-
-    function onButtonClick() {
-        var ll = $(this).data().latLng;
-        _map.flyToBounds(L.latLng(ll).toBounds(100000), getPadding());
-    }
     
     function calcOffsetCenter(center, targetZoom, paddingOptions)
     {
@@ -107,7 +118,9 @@ $(document).ready(function() {
             ]);
         }
         return _map.unproject(targetPoint, targetZoom);
-    }    
+    }
+    
+    // helper function    
     
     function getPadding()
     {
