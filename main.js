@@ -15,14 +15,14 @@ $(document).ready(function() {
 
     var _map = L.map("map", {center: [40.78, -95], zoom: 2})
         .addLayer(L.esri.basemapLayer("Streets"))
-        .fitBounds(FULL_EXTENT, {paddingTopLeft: [275,0]});
+        .fitBounds(FULL_EXTENT, getPadding());
         
     _map.zoomIn = function(){
         this.setView(
             calcOffsetCenter(
                 this.getCenter(), 
                 this.getZoom()+1, 
-                {paddingTopLeft: [275,0], paddingBottomRight: [0,0]}
+                getPadding()
             ),
             this.getZoom()+1
         );
@@ -33,7 +33,7 @@ $(document).ready(function() {
             calcOffsetCenter(
                 this.getCenter(), 
                 this.getZoom()-1, 
-                {paddingTopLeft: [275,0], paddingBottomRight: [0,0]}
+                getPadding()
             ),
             this.getZoom()-1
         );
@@ -71,7 +71,7 @@ $(document).ready(function() {
     $("input[id='opacity']").change(function(){loadMarkers();});
     $("button#seattle").click(
         function() {
-            _map.flyToBounds(L.latLng([47.61, -122.34]).toBounds(100000), {paddingTopLeft: [275,0]});
+            _map.flyToBounds(L.latLng([47.61, -122.34]).toBounds(100000), getPadding());
         }
     );
 
@@ -114,5 +114,16 @@ $(document).ready(function() {
         }
         return _map.unproject(targetPoint, targetZoom);
     }    
+    
+    function getPadding()
+    {
+        return {
+            paddingTopLeft: [
+                $("div#controls").outerWidth() + $("div#controls").position().left,
+                0
+            ], 
+            paddingBottomRight: [0,0]
+        };
+    }
     
 });
