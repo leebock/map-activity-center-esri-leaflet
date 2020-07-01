@@ -33,7 +33,15 @@ $(document).ready(function() {
       }
     );
     
-    noUiSlider.create($("div#slider").get(0), {start: [100], range: {'min': 1,'max': 100}});
+    noUiSlider.create(
+        $("div#slider").get(0), 
+        {start: [11], range: {'min': 1,'max': 11}, step: 1}
+    );    
+
+    slider.noUiSlider.on(
+        "slide", 
+        function(values){$("div#rating label:last-child").text(parseInt(values[0]))}
+    );
 
     /********** All map specific stuff below this line *****************/
 
@@ -99,8 +107,6 @@ $(document).ready(function() {
     );
     $("div#controls ul li button.ghost").click(function(){loadMarkers()});
     $("div#controls ul li button.hide").click(function(){loadMarkers()});
-    
-    slider.noUiSlider.on("change", function(){});
 
     /************************** Functions ****************************/
     
@@ -149,11 +155,11 @@ $(document).ready(function() {
         return {
             paddingTopLeft: [
                 $("div#controls").outerWidth() + parseInt($("div#controls").position().left),
-                0
+                24
             ], 
             paddingBottomRight: [
-                $("#map").height() - $("div#rating").position().top,
-                0
+                0,
+                $("#map").height() - $("div#rating").position().top
             ]
         };
     }

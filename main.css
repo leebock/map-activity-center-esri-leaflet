@@ -43,7 +43,7 @@ section div#rating {
   padding: 10px;
   display: flex;
   align-items: center;
-  width: 350px;
+  width: 340px;
 }
 
 section div#rating label:first-child {
@@ -57,6 +57,8 @@ section div#rating div#slider {
 section div#rating label:last-child {
   margin-left: 30px;
   font-size: 30px;
+  width: 40px;
+  text-align: center;
 }
 
 section div#controls {
