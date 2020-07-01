@@ -40,7 +40,7 @@ $(document).ready(function() {
     var _map = L.map("map", {center: [40, -95], zoom: 2, zoomControl: false})
         .addLayer(L.esri.basemapLayer("Streets"))
         .addControl(L.control.zoom({position: "topright"}));
-
+        
     // override the methods called when zoom control buttons are clicked.  doing this
     // in order to account for padding due to absolutely positioned div#controls
 
@@ -60,15 +60,24 @@ $(document).ready(function() {
 
     // load markers
     
-    var _layerGroup = L.layerGroup().addTo(_map);
+    var _layerMarkers = L.featureGroup().addTo(_map);
     loadMarkers();
 
     // zoom to initial extent
 
-    const FULL_EXTENT = L.latLngBounds(
-        $.map(CITIES, function(value){return L.latLng(value.latLng);})
-    );
-    _map.fitBounds(FULL_EXTENT, getPadding());
+    L.easyButton({
+        states:[
+            {
+                icon: "fa fa-home",
+                onClick: function(btn, map){
+                    _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+                },
+                title: "Full extent"
+            }
+        ],
+        position: "topright"
+    }).addTo(_map);			        
+    _map.fitBounds(_layerMarkers.getBounds(), getPadding());
     
     // assign UI event handlers
 
@@ -87,7 +96,7 @@ $(document).ready(function() {
     
     function loadMarkers()
     {
-        _layerGroup.clearLayers();
+        _layerMarkers.clearLayers();
         $.each(
             $.grep(
                 $("div#controls ul li"), 
@@ -96,7 +105,7 @@ $(document).ready(function() {
             function(index, li) {
                 var data = $(li).data();
                 var marker = L.marker(data.latLng)
-                    .addTo(_layerGroup)
+                    .addTo(_layerMarkers)
                     .bindPopup(data.name,{closeButton: false})
                     .bindTooltip(data.name)
                     .on("click", function(){$(".leaflet-tooltip").remove();});
