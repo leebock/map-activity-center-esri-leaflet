@@ -38,6 +38,7 @@ section div#controls {
   border-width: 1px;
   display: flex;
   flex-direction: column;
+  width: 300px;
 }
 
 section div#controls ul {
@@ -56,10 +57,21 @@ section div#controls ul {
 section div#controls ul li {
   display: flex;
   padding: 10px;
+  background-color: rgba(43,130,203);
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(43,130,203); 
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
-section div#controls ul li input[type=checkbox] {
-  cursor: pointer;
+section div#controls ul li.ghosted {
+  background-color: rgba(43,130,203,0.5);
+}
+
+section div#controls ul li.hidden {
+  display: none;
 }
 
 section div#controls ul li label {
@@ -75,32 +87,23 @@ section div#controls ul li button {
 }
 
 section div#controls ul li button.hide {
-  background-color: rgba(43,130,203);
+  order: 3;
+  width: 20px;
+  background: none;
+  border: none;
+  font-weight: bold;
   color: white;
 }
 
-section div#controls ul li button.hide.active {
-  background: none;
-  color: inherit;
-}
-
 section div#controls ul li button.hide:before {
-  content: "Hide";
-}
-
-section div#controls ul li button.hide.active:before {
-  content: "Show";
+  content: "X";
 }
 
 section div#controls ul li button.ghost:before {
   content: "Ghost";
 }
 
-section div#controls ul li button.ghost.active {
-  background-color: rgba(43,130,203, 0.5);  
-}
-
-section div#controls ul li button.ghost.active:before {
+section div#controls ul li.ghosted button.ghost:before {
   content: "Un-Ghost";
 }
 

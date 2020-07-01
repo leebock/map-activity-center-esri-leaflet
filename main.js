@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     const CITIES = [
-      {name: "Los Angeles", latLng: [34.05, -118.27]},
+      {name: "L.A.", latLng: [34.05, -118.27]},
       {name: "Seattle", latLng: [47.61, -122.34]},
       {name: "Denver", latLng: [39.73, -104.96]},
       {name: "NYC", latLng: [40.78, -73.96]},
@@ -16,8 +16,16 @@ $(document).ready(function() {
         $("<li>")
           .append($("<label>").text(value.name))
           .data(value)
-          .append($("<button>").addClass("hide").click(function(){$(this).toggleClass("active");}))
-          .append($("<button>").addClass("ghost").click(function(){$(this).toggleClass("active");}))
+          .append($("<button>").addClass("hide").click(
+              function(){
+                  $(this).parent().toggleClass("hidden");
+                  if ($("div#controls ul li.hidden").length === CITIES.length) {
+                      $("div#controls ul li").removeClass("hidden");
+                  }
+              }
+            )
+          )
+          .append($("<button>").addClass("ghost").click(function(){$(this).parent().toggleClass("ghosted");}))
           .append($("<button>").addClass("zoom-to"))
           .appendTo($("div#controls ul"));
       }
@@ -83,7 +91,7 @@ $(document).ready(function() {
         $.each(
             $.grep(
                 $("div#controls ul li"), 
-                function(value) {return !$("button.hide", value).hasClass("active");}
+                function(value) {return !$(value).hasClass("hidden");}
             ),
             function(index, li) {
                 var data = $(li).data();
@@ -93,7 +101,7 @@ $(document).ready(function() {
                     .bindTooltip(data.name)
                     .on("click", function(){$(".leaflet-tooltip").remove();});
                 marker.properties = data;  
-                marker.setOpacity($("button.ghost", li).hasClass("active") ? 0.5 : 1);
+                marker.setOpacity($(li).hasClass("ghosted") ? 0.5 : 1);
             }
         );
     }
