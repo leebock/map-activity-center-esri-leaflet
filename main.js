@@ -83,8 +83,12 @@ $(document).ready(function() {
 
     $("div#controls ul li button.zoom-to").click(
         function() {
-            var ll = $(this).parent().data().latLng;
-            _map.flyToBounds(L.latLng(ll).toBounds(100000), getPadding());
+            var data = $(this).parent().data()
+            _map.flyToBounds(L.latLng(data.latLng).toBounds(100000), getPadding());
+            $.grep(
+                _layerMarkers.getLayers(), 
+                function(layer){return layer.properties === data}
+            ).shift().openPopup();
         }
     );
     $("div#controls ul li button.ghost").click(function(){loadMarkers()});
