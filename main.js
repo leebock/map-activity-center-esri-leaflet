@@ -25,7 +25,9 @@ $(document).ready(function() {
               }
             )
           )
-          .append($("<button>").addClass("ghost").click(function(){$(this).parent().toggleClass("ghosted");}))
+          .append($("<button>").addClass("ghost").click(
+              function(){$(this).parent().toggleClass("ghosted");})
+          )
           .append($("<button>").addClass("zoom-to"))
           .appendTo($("div#controls ul"));
       }
@@ -37,9 +39,13 @@ $(document).ready(function() {
 
     // create map
 
-    var _map = L.map("map", {center: [40, -95], zoom: 2, zoomControl: false})
+    var _map = L.map(
+            "map", 
+            {center: [40, -95], zoom: 2, zoomControl: false, attributionControl: false}
+        )
         .addLayer(L.esri.basemapLayer("Streets"))
-        .addControl(L.control.zoom({position: "topright"}));
+        .addControl(L.control.zoom({position: "topright"}))
+        .addControl(L.control.attribution({position: "bottomleft"}));
         
     // override the methods called when zoom control buttons are clicked.  doing this
     // in order to account for padding due to absolutely positioned div#controls
@@ -145,7 +151,10 @@ $(document).ready(function() {
                 $("div#controls").outerWidth() + parseInt($("div#controls").position().left),
                 0
             ], 
-            paddingBottomRight: [0,0]
+            paddingBottomRight: [
+                $("#map").height() - $("div#rating").position().top,
+                0
+            ]
         };
     }
     

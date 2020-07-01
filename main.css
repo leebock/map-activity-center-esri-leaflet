@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   margin: 0px;
+  font-family: "Roboto";
 }
 
 body {
@@ -18,27 +19,58 @@ section {
   flex: 1;
   max-width: 900px;
   max-height: 500px;
-  padding-bottom: 20px;
   display: flex;
   position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 
 section div#map {
   flex: 1;
 }
 
-section div#controls {
+section div#rating, section div#controls {
   position: absolute;
   z-index: 2000;
+  border: solid;
+  border-width: 1px; 
   background: rgba(255, 255, 255, 0.75);
-  padding: 30px;
+}
+
+section div#rating {
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  width: 350px;
+}
+
+section div#rating label:first-child {
+  margin-right: 20px;
+}
+
+section div#rating div#slider {
+  flex: 1;
+}
+
+section div#rating label:last-child {
+  margin-left: 30px;
+  font-size: 30px;
+}
+
+section div#controls {
   top: 10px;
   left: 10px;
-  border: solid;
-  border-width: 1px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   width: 300px;
+}
+
+section div#controls h3 {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 section div#controls ul {
@@ -109,8 +141,4 @@ section div#controls ul li.ghosted button.ghost:before {
 
 section div#controls ul li button.zoom-to:before {
   content: "Zoom To";
-}
-
-section div#controls div#slider {
-  margin-top: 10px;
 }
