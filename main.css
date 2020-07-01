@@ -96,6 +96,10 @@ section div#controls ul li button.ghost:before {
   content: "Ghost";
 }
 
+section div#controls ul li button.ghost.active {
+  background-color: rgba(43,130,203, 0.5);  
+}
+
 section div#controls ul li button.ghost.active:before {
   content: "Un-Ghost";
 }
