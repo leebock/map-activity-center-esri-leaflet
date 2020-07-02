@@ -90,12 +90,10 @@ section div#controls ul {
 
 section div#controls ul li {
   display: flex;
-  padding: 10px;
   background-color: rgba(43,130,203);
   border-style: solid;
   border-width: 1px;
   border-color: rgba(43,130,203); 
-  color: white;
   border-radius: 5px;
   margin-bottom: 5px;
 }
@@ -104,43 +102,40 @@ section div#controls ul li.ghosted {
   background-color: rgba(43,130,203,0.5);
 }
 
+section div#controls ul li.selected {
+  background-color: rgba(43,130,203);
+}
+
 section div#controls ul li.hidden {
   display: none;
 }
 
-section div#controls ul li label {
+section div#controls ul li button {
   cursor: pointer;
-  margin-left: 5px;
-  flex: 1;
+  color: white;
+  border: none;
 }
 
-section div#controls ul li button {
-  width: 80px;
-  cursor: pointer;
-  margin-left: 10px;
+section div#controls ul li > button:nth-of-type(1) {
+  flex: 1;
+  background: none;
+  text-align: left;
+  padding: 10px;
 }
 
 section div#controls ul li button.hide {
-  order: 3;
-  width: 20px;
   background: none;
   border: none;
   font-weight: bold;
   color: white;
+  display: none;
+  margin-left: 10px;
+}
+
+section div#controls ul li.selected button.hide {
+  display: block;
 }
 
 section div#controls ul li button.hide:before {
   content: "X";
-}
-
-section div#controls ul li button.ghost:before {
-  content: "Ghost";
-}
-
-section div#controls ul li.ghosted button.ghost:before {
-  content: "Un-Ghost";
-}
-
-section div#controls ul li button.zoom-to:before {
-  content: "Zoom To";
 }

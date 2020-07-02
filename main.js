@@ -14,21 +14,33 @@ $(document).ready(function() {
       CITIES,
       function(index, value) {    
         $("<li>")
-          .append($("<label>").text(value.name))
-          .data(value)
-          .append($("<button>").addClass("hide").click(
-              function(){
-                  $(this).parent().toggleClass("hidden");
-                  if ($("div#controls ul li.hidden").length === CITIES.length) {
-                      $("div#controls ul li").removeClass("hidden");
-                  }
-              }
+            .data(value)
+            .append(
+                $("<button>").text(value.name).click(
+                    function()
+                    {
+                        if ($(this).parent().hasClass("selected")) {
+                            $(this).parent().removeClass("selected");
+                            $("div#controls ul li").removeClass("ghosted");
+                        } else {
+                            $("div#controls ul li").removeClass("selected");
+                            $("div#controls ul li").addClass("ghosted");
+                            $(this).parent().addClass("selected").removeClass("ghosted");
+                        }                        
+                    }
+                )
             )
-          )
-          .append($("<button>").addClass("ghost").click(
-              function(){$(this).parent().toggleClass("ghosted");})
-          )
-          .append($("<button>").addClass("zoom-to"))
+            .append($("<button>").addClass("hide").click(
+                    function() {
+                        $(this).parent().toggleClass("hidden");
+                        if ($("div#controls ul li.hidden").length === CITIES.length) {
+                          $("div#controls ul li").removeClass("hidden");
+                        }
+                        $("div#controls ul li").removeClass("selected");
+                        $("div#controls ul li").removeClass("ghosted");
+                    }
+                )
+            )                    
           .appendTo($("div#controls ul"));
       }
     );
@@ -95,18 +107,42 @@ $(document).ready(function() {
     
     // assign UI event handlers
 
-    $("div#controls ul li button.zoom-to").click(
+    $("div#controls ul li button:nth-of-type(1)").click(
         function() {
-            var data = $(this).parent().data()
-            _map.flyToBounds(L.latLng(data.latLng).toBounds(100000), getPadding());
-            $.grep(
-                _layerMarkers.getLayers(), 
-                function(layer){return layer.properties === data}
-            ).shift().openPopup();
+            var data = $(this).parent().data();
+            loadMarkers();
+            if ($("div#controls ul li.selected").length === 0) {
+                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+            } else {
+                _map.flyToBounds(
+                    L.latLng(data.latLng).toBounds(2000000), 
+                    getPadding()
+                );
+                $.grep(
+                    _layerMarkers.getLayers(), 
+                    function(layer){return layer.properties === data}
+                ).shift().openPopup();
+            }            
         }
     );
-    $("div#controls ul li button.ghost").click(function(){loadMarkers()});
-    $("div#controls ul li button.hide").click(function(){loadMarkers()});
+    
+    $("div#controls ul li button.hide").click(
+        function() {
+            loadMarkers();
+            if ($("div#controls ul li").length - $("div#controls ul li.hidden").length === 1) {
+                var data = $($.grep(
+                    $("div#controls ul li"), 
+                    function(value){return !$(value).hasClass("hidden")}
+                )).data();
+                _map.flyToBounds(
+                    L.latLng(data.latLng).toBounds(2000000), 
+                    getPadding()
+                );
+            } else {
+                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+            }
+        }
+    );
 
     /************************** Functions ****************************/
     
