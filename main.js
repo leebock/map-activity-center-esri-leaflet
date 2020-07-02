@@ -32,12 +32,16 @@ $(document).ready(function() {
             )
             .append($("<button>").addClass("hide").click(
                     function() {
-                        $(this).parent().toggleClass("hidden");
-                        if ($("div#controls ul li.hidden").length === CITIES.length) {
-                          $("div#controls ul li").removeClass("hidden");
-                        }
+                        $(this).parent().addClass("hidden");
                         $("div#controls ul li").removeClass("selected");
                         $("div#controls ul li").removeClass("ghosted");
+                        if ($("div#controls ul li").not(".hidden").length === 0) {
+                          $("div#controls ul li").removeClass("hidden");
+                      } else if ($("div#controls ul li").not(".hidden").length === 1) {
+                          $("div#controls ul li").not(".hidden").addClass("selected");
+                      } else {
+                          // nuttin...
+                      }
                     }
                 )
             )                    
