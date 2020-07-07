@@ -96,6 +96,7 @@ section div#controls ul li {
   border-color: rgba(43,130,203); 
   border-radius: 5px;
   margin-bottom: 5px;
+  align-items: center;
 }
 
 section div#controls ul li.ghosted {
@@ -124,7 +125,14 @@ section div#controls ul li > button:nth-of-type(1) {
 }
 
 section div#controls ul li button.hide {
-  background: none;
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+  background-image: url("resources/deletered.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: rgba(43,130,203);
   border: none;
   font-weight: bold;
   color: white;
@@ -134,8 +142,4 @@ section div#controls ul li button.hide {
 
 section div#controls ul li.selected button.hide {
   display: block;
-}
-
-section div#controls ul li button.hide:before {
-  content: "X";
 }

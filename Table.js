@@ -24,7 +24,10 @@ function Table(ul)
                         }
                     )
                 )
-                .append($("<button>").addClass("hide").click(
+                .append($("<button>")
+					.addClass("hide")
+					.attr("title", "Remove city from map and table.")
+					.click(
                         function() {
                             $(this).parent().addClass("hidden");
                             $("div#controls ul li").removeClass("selected");
