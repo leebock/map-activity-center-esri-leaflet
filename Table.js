@@ -67,6 +67,13 @@ function Table(ul)
 	{
 		$("li", ul).removeClass("selected").removeClass("ghosted");
 	};
+	
+	this.activate = function(record)
+	{
+		$("li", ul).removeClass("selected").removeClass("ghosted");
+		$($.grep($("li", ul), function(value){return $(value).data() === record;})).addClass("selected");
+		$("li", ul).not(".selected").addClass("ghosted");
+	};
 
 }
 

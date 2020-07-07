@@ -63,7 +63,7 @@
 
         // load markers
         
-        var _layerMarkers = L.featureGroup().addTo(_map);
+        var _layerMarkers = L.featureGroup().addTo(_map).on("click", marker_onClick);
         loadMarkers();
 
         // zoom to initial extent
@@ -87,6 +87,22 @@
 			_table.clearActive();
 			loadMarkers();
 			_map.fitBounds(_layerMarkers.getBounds(), getPadding());
+		}
+		
+		function marker_onClick(e)
+		{
+			var data = e.layer.properties;
+			$(".leaflet-tooltip").remove();			
+			_table.activate(data);
+			loadMarkers();
+			_map.flyToBounds(
+				L.latLng(data.latLng).toBounds(2000000), 
+				getPadding()
+			);
+			$.grep(
+				_layerMarkers.getLayers(), 
+				function(layer){return layer.properties === data;}
+			).shift().openPopup();
 		}
 		
         // table event handlers
@@ -131,8 +147,7 @@
                     var marker = L.marker(item.data.latLng)
                         .addTo(_layerMarkers)
                         .bindPopup(item.data.name,{closeButton: false})
-                        .bindTooltip(item.data.name)
-                        .on("click", function(){$(".leaflet-tooltip").remove();});
+                        .bindTooltip(item.data.name);
                     marker.properties = item.data;  
                     marker.setOpacity(item.ghosted ? 0.5 : 1);
                 }
