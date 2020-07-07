@@ -41,7 +41,8 @@
             )
             .addLayer(L.esri.basemapLayer("Streets"))
             .addControl(L.control.zoom({position: "topright"}))
-            .addControl(L.control.attribution({position: "bottomleft"}));
+            .addControl(L.control.attribution({position: "bottomleft"}))
+			.on("click", map_onClick);
             
         // override the methods called when zoom control buttons are clicked.  doing this
         // in order to account for padding due to absolutely positioned div#controls
@@ -81,6 +82,13 @@
         }).addTo(_map);			        
         _map.fitBounds(_layerMarkers.getBounds(), getPadding());
         
+		function map_onClick()
+		{
+			_table.clearActive();
+			loadMarkers();
+			_map.fitBounds(_layerMarkers.getBounds(), getPadding());
+		}
+		
         // table event handlers
 
         function table_onItemActivate(event, data, reset) {
@@ -158,7 +166,7 @@
                     24
                 ], 
                 paddingBottomRight: [
-                    0,
+                    40,
                     $("#map").height() - $("div#rating").position().top
                 ]
             };

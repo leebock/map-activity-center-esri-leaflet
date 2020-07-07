@@ -62,6 +62,11 @@ function Table(ul)
             }
         );        
     };
+	
+	this.clearActive = function()
+	{
+		$("li", ul).removeClass("selected").removeClass("ghosted");
+	};
 
 }
 
