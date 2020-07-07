@@ -126,7 +126,7 @@
         function table_onItemHide(event) {
             loadMarkers();
             if (_table.getNumberVisibleItems() === 1) {
-				var data = _table.getVisibleRecords().shift().data;
+				var data = _table.getVisibleRecords().shift();
                 _map.flyToBounds(
                     L.latLng(data.latLng).toBounds(2000000), 
                     getPadding()
@@ -143,13 +143,15 @@
             _layerMarkers.clearLayers();
             $.each(
                 _table.getVisibleRecords(),
-                function(index, item) {
-                    var marker = L.marker(item.data.latLng)
+                function(index, data) {
+                    var marker = L.marker(data.latLng)
                         .addTo(_layerMarkers)
-                        .bindPopup(item.data.name,{closeButton: false})
-                        .bindTooltip(item.data.name);
-                    marker.properties = item.data;  
-                    marker.setOpacity(item.ghosted ? 0.5 : 1);
+                        .bindPopup(data.name,{closeButton: false})
+                        .bindTooltip(data.name);
+                    marker.properties = data;  
+                    if (_table.getActive() && data !== _table.getActive()) {
+						marker.setOpacity(0.5);
+					}
                 }
             );
         }

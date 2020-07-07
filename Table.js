@@ -58,10 +58,15 @@ function Table(ul)
         return $.map(
             $("li", ul).not(".hidden"), 
             function(value) {
-                return {ghosted: $(value).hasClass("ghosted"), data: $(value).data()};
+                return $(value).data();
             }
         );        
     };
+	
+	this.getActive = function()
+	{
+		return $("li.selected", ul).data();
+	};
 	
 	this.clearActive = function()
 	{
