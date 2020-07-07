@@ -90,12 +90,13 @@ section div#controls ul {
 
 section div#controls ul li {
   display: flex;
-  background-color: rgba(43,130,203);
+  background-color: rgba(43,130,203,1);
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(43,130,203); 
-  border-radius: 5px;
+  border-color: rgba(43,130,203,1); 
+  border-radius: 3px;
   margin-bottom: 5px;
+  padding: 3px;
   align-items: center;
 }
 
@@ -104,7 +105,7 @@ section div#controls ul li.ghosted {
 }
 
 section div#controls ul li.selected {
-  background-color: rgba(43,130,203);
+  background-color: rgba(43,130,203,1);
 }
 
 section div#controls ul li.hidden {
