@@ -56,7 +56,7 @@ $(document).ready(function() {
 
     slider.noUiSlider.on(
         "slide", 
-        function(values){$("div#rating label:last-child").text(parseInt(values[0]))}
+        function(values){$("div#rating label:last-child").text(parseInt(values[0]));}
     );
 
     /********** All map specific stuff below this line *****************/
@@ -124,7 +124,7 @@ $(document).ready(function() {
                 );
                 $.grep(
                     _layerMarkers.getLayers(), 
-                    function(layer){return layer.properties === data}
+                    function(layer){return layer.properties === data;}
                 ).shift().openPopup();
             }            
         }
@@ -136,7 +136,7 @@ $(document).ready(function() {
             if ($("div#controls ul li").length - $("div#controls ul li.hidden").length === 1) {
                 var data = $($.grep(
                     $("div#controls ul li"), 
-                    function(value){return !$(value).hasClass("hidden")}
+                    function(value){return !$(value).hasClass("hidden");}
                 )).data();
                 _map.flyToBounds(
                     L.latLng(data.latLng).toBounds(2000000), 
