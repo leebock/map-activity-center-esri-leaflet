@@ -125,7 +125,7 @@
         
         function table_onItemHide(event) {
             loadMarkers();
-            if (_table.getNumberVisibleItems() === 1) {
+            if (_table.getVisibleRecords().length === 1) {
 				var data = _table.getVisibleRecords().shift();
                 _map.flyToBounds(
                     L.latLng(data.latLng).toBounds(2000000), 

@@ -48,19 +48,9 @@ function Table(ul)
         );
 	};
     
-    this.getNumberVisibleItems = function()
-    {
-        return $("li", ul).not(".hidden").length;
-    };
-    
     this.getVisibleRecords = function()
     {
-        return $.map(
-            $("li", ul).not(".hidden"), 
-            function(value) {
-                return $(value).data();
-            }
-        );        
+        return $.map($("li", ul).not(".hidden"), function(value) {return $(value).data();});        
     };
 	
 	this.getActive = function()
