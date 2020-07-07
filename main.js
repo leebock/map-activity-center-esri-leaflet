@@ -13,46 +13,14 @@
         ];
         
         // build out UI (this part should be map library independent)
-        
-        $.each(
-          CITIES,
-          function(index, value) {    
-            $("<li>")
-                .data(value)
-                .append(
-                    $("<button>").text(value.name).click(
-                        function()
-                        {
-                            if ($(this).parent().hasClass("selected")) {
-                                $(this).parent().removeClass("selected");
-                                $("div#controls ul li").removeClass("ghosted");
-                            } else {
-                                $("div#controls ul li").removeClass("selected");
-                                $("div#controls ul li").addClass("ghosted");
-                                $(this).parent().addClass("selected").removeClass("ghosted");
-                            }                        
-                        }
-                    )
-                )
-                .append($("<button>").addClass("hide").click(
-                        function() {
-                            $(this).parent().addClass("hidden");
-                            $("div#controls ul li").removeClass("selected");
-                            $("div#controls ul li").removeClass("ghosted");
-                            if ($("div#controls ul li").not(".hidden").length === 0) {
-                              $("div#controls ul li").removeClass("hidden");
-                          } else if ($("div#controls ul li").not(".hidden").length === 1) {
-                              $("div#controls ul li").not(".hidden").addClass("selected");
-                          } else {
-                              // nuttin...
-                          }
-                        }
-                    )
-                )                    
-              .appendTo($("div#controls ul"));
-          }
-        );
-        
+		
+		var _table = $(new Table($("div#controls ul").get(0)))
+		   .on("itemActivate", table_onItemActivate)
+		   .on("itemHide", table_onItemHide)
+		   .get(0);		
+		
+		_table.load($.map(CITIES, function(value){return {record: value, html: value.name};}));
+                
         noUiSlider.create(
             $("div#slider").get(0), 
             {start: [11], range: {'min': 1,'max': 11}, step: 1}
@@ -113,44 +81,36 @@
         }).addTo(_map);			        
         _map.fitBounds(_layerMarkers.getBounds(), getPadding());
         
-        // assign UI event handlers
+        // table event handlers
 
-        $("div#controls ul li button:nth-of-type(1)").click(
-            function() {
-                var data = $(this).parent().data();
-                loadMarkers();
-                if ($("div#controls ul li.selected").length === 0) {
-                    _map.fitBounds(_layerMarkers.getBounds(), getPadding());
-                } else {
-                    _map.flyToBounds(
-                        L.latLng(data.latLng).toBounds(2000000), 
-                        getPadding()
-                    );
-                    $.grep(
-                        _layerMarkers.getLayers(), 
-                        function(layer){return layer.properties === data;}
-                    ).shift().openPopup();
-                }            
-            }
-        );
+        function table_onItemActivate(event, data, reset) {
+            loadMarkers();
+            if (reset) {
+                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+            } else {
+                _map.flyToBounds(
+                    L.latLng(data.latLng).toBounds(2000000), 
+                    getPadding()
+                );
+                $.grep(
+                    _layerMarkers.getLayers(), 
+                    function(layer){return layer.properties === data;}
+                ).shift().openPopup();
+            }            
+        }
         
-        $("div#controls ul li button.hide").click(
-            function() {
-                loadMarkers();
-                if ($("div#controls ul li").length - $("div#controls ul li.hidden").length === 1) {
-                    var data = $($.grep(
-                        $("div#controls ul li"), 
-                        function(value){return !$(value).hasClass("hidden");}
-                    )).data();
-                    _map.flyToBounds(
-                        L.latLng(data.latLng).toBounds(2000000), 
-                        getPadding()
-                    );
-                } else {
-                    _map.fitBounds(_layerMarkers.getBounds(), getPadding());
-                }
+        function table_onItemHide(event) {
+            loadMarkers();
+            if (_table.getNumberVisibleItems() === 1) {
+				var data = _table.getVisibleRecords().shift().data;
+                _map.flyToBounds(
+                    L.latLng(data.latLng).toBounds(2000000), 
+                    getPadding()
+                );
+            } else {
+                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
             }
-        );
+        }
 
         /************************** Functions ****************************/
         
@@ -158,19 +118,15 @@
         {
             _layerMarkers.clearLayers();
             $.each(
-                $.grep(
-                    $("div#controls ul li"), 
-                    function(value) {return !$(value).hasClass("hidden");}
-                ),
-                function(index, li) {
-                    var data = $(li).data();
-                    var marker = L.marker(data.latLng)
+                _table.getVisibleRecords(),
+                function(index, item) {
+                    var marker = L.marker(item.data.latLng)
                         .addTo(_layerMarkers)
-                        .bindPopup(data.name,{closeButton: false})
-                        .bindTooltip(data.name)
+                        .bindPopup(item.data.name,{closeButton: false})
+                        .bindTooltip(item.data.name)
                         .on("click", function(){$(".leaflet-tooltip").remove();});
-                    marker.properties = data;  
-                    marker.setOpacity($(li).hasClass("ghosted") ? 0.5 : 1);
+                    marker.properties = item.data;  
+                    marker.setOpacity(item.ghosted ? 0.5 : 1);
                 }
             );
         }
