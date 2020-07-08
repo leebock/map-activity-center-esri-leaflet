@@ -29,7 +29,7 @@ section div#map {
   flex: 1;
 }
 
-section div#rating, section div#controls {
+section div#octopodes, section div#controls {
   position: absolute;
   z-index: 2000;
   border: solid;
@@ -37,28 +37,46 @@ section div#rating, section div#controls {
   background: rgba(255, 255, 255, 0.75);
 }
 
-section div#rating {
+section div#octopodes {
   bottom: 10px;
   right: 10px;
   padding: 10px;
-  display: flex;
-  align-items: center;
   width: 340px;
 }
 
-section div#rating label:first-child {
+section div#octopodes div#upper {
+  display: flex;
+  align-items: center;  
+}
+
+section div#octopodes div#upper label:first-child {
   margin-right: 20px;
 }
 
-section div#rating div#slider {
+section div#octopodes div#upper div#slider {
   flex: 1;
 }
 
-section div#rating label:last-child {
+section div#octopodes div#upper label:last-child {
   margin-left: 30px;
   font-size: 30px;
   width: 40px;
   text-align: center;
+}
+
+section div#octopodes div#lower {
+  display: flex;
+  justify-content: center;
+}
+
+section div#octopodes div#lower img {
+  display: none;
+  width: 24px;
+  margin-right: 2px;
+}
+
+section div#octopodes div#lower img:last-of-type {
+  margin-right: 0px;
 }
 
 section div#controls {

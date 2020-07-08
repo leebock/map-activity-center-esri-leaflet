@@ -23,12 +23,24 @@
                 
         noUiSlider.create(
             $("div#slider").get(0), 
-            {start: [11], range: {'min': 1,'max': 11}, step: 1}
+            {start: [1], range: {'min': 1,'max': 11}, step: 1}
         );    
-
+		$("div#octopodes label:last-child").text(parseInt(slider.noUiSlider.get(0)));
+		for (var i=0; i < slider.noUiSlider.options.range.max; i++) {
+			$("div#octopodes div#lower").append($("<img>").attr("src", "resources/octopus.png"));
+		}
+		$("div#octopodes div#lower img:nth-of-type(1)").show();
         slider.noUiSlider.on(
             "slide", 
-            function(values){$("div#rating label:last-child").text(parseInt(values[0]));}
+            function(values){
+				$("div#octopodes label:last-child").text(parseInt(values[0]));
+				$.each(
+					$("div#octopodes div#lower img"),
+					function(index, value) {
+						$(value).css("display", index < parseInt(values[0]) ? "block" : "none");
+					}
+				);
+			}
         );
 
         /********** All map specific stuff below this line *****************/
@@ -184,7 +196,7 @@
                 ], 
                 paddingBottomRight: [
                     40,
-                    $("#map").height() - $("div#rating").position().top
+                    $("#map").height() - $("div#octopodes").position().top
                 ]
             };
         }
