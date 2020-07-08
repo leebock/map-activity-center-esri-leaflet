@@ -8,44 +8,43 @@ function Table(ul)
           function(index, value) {  
             $("<li>")
                 .data(value.record)
-                .append(
-                    $("<button>").text(value.html).click(
-                        function()
-                        {
-                            if ($(this).parent().hasClass("selected")) {
-                                $(this).parent().removeClass("selected");
-                                $("div#controls ul li").removeClass("ghosted");
-                            } else {
-                                $("div#controls ul li").removeClass("selected");
-                                $("div#controls ul li").addClass("ghosted");
-                                $(this).parent().addClass("selected").removeClass("ghosted");
-                            }
-                            $(_self).trigger("itemActivate", [$(this).parent().data(), $("li.selected", ul).length === 0]);
-                        }
-                    )
-                )
+                .append($("<button>").html(value.html))
                 .append($("<button>")
 					.addClass("hide")
 					.attr("title", "Remove city from map and table.")
-					.click(
-                        function() {
-                            $(this).parent().addClass("hidden");
-                            $("div#controls ul li").removeClass("selected");
-                            $("div#controls ul li").removeClass("ghosted");
-                            if ($("div#controls ul li").not(".hidden").length === 0) {
-                              $("div#controls ul li").removeClass("hidden");
-                          } else if ($("div#controls ul li").not(".hidden").length === 1) {
-                              $("div#controls ul li").not(".hidden").addClass("selected");
-                          } else {
-                              // nuttin...
-                          }
-                          $(_self).trigger("itemHide", []);                          
-                        }
-                    )
                 )                    
               .appendTo(ul);
           }
         );
+		
+		$("li button:nth-of-type(1)", ul).click(
+			function() {
+				if ($(this).parent().hasClass("selected")) {
+					$(this).parent().removeClass("selected");
+					$("li", ul).removeClass("ghosted");
+				} else {
+					$("li", ul).removeClass("selected").addClass("ghosted");
+					$(this).parent().addClass("selected").removeClass("ghosted");
+				}
+				$(_self).trigger("itemActivate", [$(this).parent().data(), $("li.selected", ul).length === 0]);
+			}
+		);
+		
+		$("li button.hide", ul).click(
+			function() {
+				$(this).parent().addClass("hidden");
+				$("li", ul).removeClass("selected").removeClass("ghosted");
+				if ($("li", ul).not(".hidden").length === 0) {
+				  $("li", ul).removeClass("hidden");
+			  } else if ($("li", ul).not(".hidden").length === 1) {
+				  $("li", ul).not(".hidden").addClass("selected");
+			  } else {
+				  // nuttin...
+			  }
+			  $(_self).trigger("itemHide", []);                          
+			}
+		);
+		
 	};
     
     this.getVisibleRecords = function()
