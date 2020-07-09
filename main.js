@@ -211,7 +211,7 @@
                 ], 
                 paddingBottomRight: [
                     40,
-                    0
+                    $("div#map").outerHeight() - $("button#rate").position().top
                 ]
             };
         }
