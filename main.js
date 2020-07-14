@@ -11,6 +11,8 @@
           {name: "NYC", latLng: [40.78, -73.96]},
           {name: "Miami", latLng: [25.79, -80.21]}
         ];
+		
+		const HOME_BOUNDS = [[25.79,-122.34],[47.61,-73.96]];
         
         // build out UI (this part should be map library independent)
 		
@@ -100,20 +102,20 @@
                 {
                     icon: "fa fa-home",
                     onClick: function(btn, map){
-                        _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+                        _map.fitBounds(HOME_BOUNDS, getPadding());
                     },
                     title: "Full extent"
                 }
             ],
             position: "topright"
         }).addTo(_map);			        
-        _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+        _map.fitBounds(HOME_BOUNDS, getPadding());
         
 		function map_onClick()
 		{
 			_table.clearActive();
 			loadMarkers();
-			_map.fitBounds(_layerMarkers.getBounds(), getPadding());
+			_map.fitBounds(HOME_BOUNDS, getPadding());
 		}
 		
 		function marker_onClick(e)
@@ -137,7 +139,7 @@
         function table_onItemActivate(event, data, reset) {
             loadMarkers();
             if (reset) {
-                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+                _map.fitBounds(HOME_BOUNDS, getPadding());
             } else {
                 _map.flyToBounds(
                     L.latLng(data.latLng).toBounds(2000000), 
@@ -159,7 +161,7 @@
                     getPadding()
                 );
             } else {
-                _map.fitBounds(_layerMarkers.getBounds(), getPadding());
+                _map.fitBounds(HOME_BOUNDS, getPadding());
             }
         }
 
