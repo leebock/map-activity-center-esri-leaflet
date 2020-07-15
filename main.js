@@ -11,8 +11,6 @@
           {name: "NYC", latLng: [40.78, -73.96]},
           {name: "Miami", latLng: [25.79, -80.21]}
         ];
-		
-		const HOME_BOUNDS = [[25.79,-122.34],[47.61,-73.96]];
         
         // build out UI (this part should be map library independent)
 		
@@ -61,6 +59,8 @@
         );
 
         /********** All map specific stuff below this line *****************/
+		
+		const HOME_BOUNDS = [[25.79,-122.34],[47.61,-73.96]];
 
         // create map
 
