@@ -56,7 +56,7 @@ section button#rate div.octopus {
 
 section div#modal {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255,255,255,0.6);
   z-index: 2000;
   top: 0px;
   left: 0px;
@@ -70,7 +70,7 @@ section div#modal {
 section div#modal div#inner {
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255,255,255,0.8);
   box-sizing: border-box;
   border: solid;
   border-width: 1px;
@@ -89,7 +89,7 @@ section div#modal button#cancel {
   font-size: 20px;
 }
 
-section div#modal button#apply {
+section div#modal button#apply   {
   align-self: center;
 }
 
@@ -116,9 +116,9 @@ section div#modal div#octopodes img:last-of-type {
 
 section div#controls {
   position: absolute;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.75);  
   border: solid;
-  border-width: 1px;
+  border-width: 1px; 
   z-index: 1000;
   top: 10px;
   left: 10px;
@@ -148,10 +148,10 @@ section div#controls ul {
 
 section div#controls ul li {
   display: flex;
-  background-color: #2b82cb;
+  background-color: rgba(43,130,203,1);
   border-style: solid;
   border-width: 1px;
-  border-color: #2b82cb;
+  border-color: rgba(43,130,203,1); 
   border-radius: 3px;
   margin-bottom: 5px;
   padding: 3px;
@@ -159,16 +159,16 @@ section div#controls ul li {
 }
 
 section div#controls ul li.ghosted {
-  background-color: rgba(43, 130, 203, 0.5);
+  background-color: rgba(43,130,203,0.5);
 }
 
 section div#controls ul li:hover {
-  background-color: rgba(43, 130, 203, 0.9);
+  background-color: rgba(43,130,203,0.9);
   border-color: white;
 }
 
 section div#controls ul li.selected {
-  background-color: #2b82cb;
+  background-color: rgba(43,130,203,1);
 }
 
 section div#controls ul li.hidden {
@@ -182,7 +182,7 @@ section div#controls ul li button {
 }
 
 section div#controls ul li button:focus {
-  outline-color: rgba(255, 255, 255, 0.8);
+  outline-color: rgba(255,255,255,0.8);
   outline-style: solid;
   outline-width: 2px;
 }
@@ -202,7 +202,7 @@ section div#controls ul li button.hide {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-color: #2b82cb;
+  background-color: rgba(43,130,203);
   border: none;
   font-weight: bold;
   color: white;
@@ -213,5 +213,3 @@ section div#controls ul li button.hide {
 section div#controls ul li.selected button.hide {
   display: block;
 }
-
-/*# sourceMappingURL=main.css.map */
