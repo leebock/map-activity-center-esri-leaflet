@@ -206,16 +206,25 @@
         
         function getPadding()
         {
-            return {
-                paddingTopLeft: [
-                    $("div#controls").outerWidth() + parseInt($("div#controls").position().left),
-                    24
-                ], 
-                paddingBottomRight: [
-                    40,
-                    $("div#map").outerHeight() - $("button#rate").position().top
-                ]
-            };
+			var padding;
+			if (parseInt($("div#controls").css("bottom")) === 0) {
+				padding = {
+	                paddingTopLeft: [0, 0], 
+	                paddingBottomRight: [40, $("div#controls").outerHeight()]
+	            };  
+			} else {
+				padding = {
+	                paddingTopLeft: [
+	                    $("div#controls").outerWidth() + parseInt($("div#controls").position().left) + 10,
+	                    24
+	                ], 
+	                paddingBottomRight: [
+	                    40,
+	                    $("div#map").outerHeight() - $("button#rate").position().top
+	                ]
+	            };  
+			}
+            return padding;
         }
         
     });
